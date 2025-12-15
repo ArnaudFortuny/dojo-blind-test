@@ -1,3 +1,4 @@
+
 export type AlbumBase = {
  album_type: string;
  total_tracks: number;

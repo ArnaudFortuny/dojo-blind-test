@@ -1,3 +1,4 @@
+
 export type AudioAnalysisObject = {
  meta?: {
  analyzer_version?: string;
@@ -18,14 +19,14 @@ export type AudioAnalysisObject = {
  analysis_channels?: number;
  end_of_fade_in?: number;
  start_of_fade_out?: number;
- loudness?: ;
- tempo?: ;
+ loudness?: Loudness;
+ tempo?: Tempo;
  tempo_confidence?: number;
- time_signature?: ;
+ time_signature?: TimeSignature;
  time_signature_confidence?: number;
- key?: ;
+ key?: Key;
  key_confidence?: number;
- mode?: ;
+ mode?: Mode;
  mode_confidence?: number;
  codestring?: string;
  code_version?: number;

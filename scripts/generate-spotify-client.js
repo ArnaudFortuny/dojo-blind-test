@@ -31,7 +31,18 @@ function generateType(typeName, typeSchema) {
 function getGeneratedCode(typeName, typeSchema) {
   const generatedType = getGeneratedType(typeSchema);
 
-  return `export type ${typeName} = ${generatedType};`;
+  var code = "";
+
+  for (const property in typeSchema.properties) {
+
+    if (typeSchema.properties[property].$ref){
+      const ref = typeSchema.properties[property]["$ref"];
+      const refObject = ref.split("/").at(-1);
+      code += "import { " + refObject + " } from \"./" + refObject +"\";\n";
+    }
+  }
+
+  return code + `\nexport type ${typeName} = ${generatedType};`;
 }
 
 function getGeneratedType(typeSchema) {
@@ -48,6 +59,24 @@ function getGeneratedType(typeSchema) {
       const required = typeSchema.required ?? [];
       var objectType = "{\n";
       for (const property in typeSchema.properties) {
+
+        if (typeSchema.properties[property].$ref){
+          const ref = typeSchema.properties[property]["$ref"];
+          const refObject = ref.split("/").at(-1);
+          for (const r in required){
+            if (property == required[r]){
+              inRequired = true;
+            }
+          }
+          if (inRequired){
+            objectType += " " + property + ": " + refObject + ";\n";
+          }
+          else {
+            objectType += " " + property + "?: " + refObject + ";\n";
+          }
+          continue
+        }
+
         const propertyType = getGeneratedType(typeSchema.properties[property]);
         var inRequired = false;
         for (const r in required){

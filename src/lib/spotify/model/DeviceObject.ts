@@ -1,3 +1,4 @@
+
 export type DeviceObject = {
  id?: string;
  is_active?: boolean;
