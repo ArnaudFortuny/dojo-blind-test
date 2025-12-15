@@ -1,6 +1,8 @@
 import { mkdir, writeFile } from "fs/promises";
 
 import openapi from "../openapi.json" assert { type: 'json' };
+import { type } from "os";
+import { types } from "util";
 
 const targetDirectory = "src/lib/spotify/model";
 
@@ -37,12 +39,32 @@ function getGeneratedType(typeSchema) {
 
   // TO DO: Generate typescript code from schema
   switch (schemaType) {
-    case "number":
-    case "integer":
-    case "string":
-    case "boolean":
+    case "number": 
+    case "integer": return "number";
+    case "string": return "string";
+    case "boolean": return "boolean";
     case "array":
     case "object":
+      const required = typeSchema.required ?? [];
+      var objectType = "{\n";
+      for (const property in typeSchema.properties) {
+        const propertyType = getGeneratedType(typeSchema.properties[property]);
+        var inRequired = false;
+        for (const r in required){
+          if (property == required[r]){
+            inRequired = true;
+          }
+        }
+        if (inRequired){
+          objectType += " " + property + ": " + propertyType + ";\n";
+        }
+        else {
+          objectType += " " + property + "?: " + propertyType + ";\n";
+        }
+        
+      }
+      objectType += "}";
+      return objectType;
     default:
       return "";
   }
