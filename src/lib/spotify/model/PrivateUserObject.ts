@@ -1,4 +1,3 @@
-
 export type PrivateUserObject = {
  country?: string;
  display_name?: string;

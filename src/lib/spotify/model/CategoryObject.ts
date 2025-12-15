@@ -1,4 +1,3 @@
-
 export type CategoryObject = {
  href: string;
  icons: {

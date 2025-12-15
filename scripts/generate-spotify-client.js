@@ -29,23 +29,19 @@ function generateType(typeName, typeSchema) {
 }
 
 function getGeneratedCode(typeName, typeSchema) {
-  const generatedType = getGeneratedType(typeSchema);
+  const imports = new Set();
+  const generatedType = getGeneratedType(typeSchema, imports);
 
   var code = "";
 
-  for (const property in typeSchema.properties) {
-
-    if (typeSchema.properties[property].$ref){
-      const ref = typeSchema.properties[property]["$ref"];
-      const refObject = ref.split("/").at(-1);
-      code += "import { " + refObject + " } from \"./" + refObject +"\";\n";
-    }
+  for (const refObject of imports) {
+    code += "import { " + refObject + " } from \"./" + refObject +"\";\n";
   }
 
-  return code + `\nexport type ${typeName} = ${generatedType};`;
+  return code + `export type ${typeName} = ${generatedType};`;
 }
 
-function getGeneratedType(typeSchema) {
+function getGeneratedType(typeSchema, imports) {
   const schemaType = typeSchema.type;
 
   // TO DO: Generate typescript code from schema
@@ -60,9 +56,17 @@ function getGeneratedType(typeSchema) {
       var objectType = "{\n";
       for (const property in typeSchema.properties) {
 
+        if (property=="external_urls"){
+          console.log(property, typeSchema.properties[property]);
+        }
+
+
         if (typeSchema.properties[property].$ref){
           const ref = typeSchema.properties[property]["$ref"];
           const refObject = ref.split("/").at(-1);
+          if (!imports.has(refObject)){
+            imports.add(refObject);
+          }
           for (const r in required){
             if (property == required[r]){
               inRequired = true;
@@ -77,7 +81,7 @@ function getGeneratedType(typeSchema) {
           continue
         }
 
-        const propertyType = getGeneratedType(typeSchema.properties[property]);
+        const propertyType = getGeneratedType(typeSchema.properties[property], imports);
         var inRequired = false;
         for (const r in required){
           if (property == required[r]){

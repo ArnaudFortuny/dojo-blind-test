@@ -1,4 +1,3 @@
-
 export type SimplifiedTrackObject = {
  artists?: {
 };

@@ -3,7 +3,6 @@ import { Loudness } from "./Loudness";
 import { Mode } from "./Mode";
 import { Tempo } from "./Tempo";
 import { TimeSignature } from "./TimeSignature";
-
 export type AudioFeaturesObject = {
  acousticness?: number;
  analysis_url?: string;

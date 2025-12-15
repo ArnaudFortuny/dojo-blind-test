@@ -1,4 +1,3 @@
-
 export type SegmentObject = {
  start?: number;
  duration?: number;

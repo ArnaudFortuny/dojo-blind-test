@@ -1,4 +1,3 @@
-
 export type ContextObject = {
  type?: string;
  href?: string;

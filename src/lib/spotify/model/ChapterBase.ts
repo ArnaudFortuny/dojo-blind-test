@@ -1,4 +1,3 @@
-
 export type ChapterBase = {
  audio_preview_url: string;
  available_markets?: {

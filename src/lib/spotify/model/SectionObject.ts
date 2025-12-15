@@ -1,5 +1,4 @@
 import { TimeSignature } from "./TimeSignature";
-
 export type SectionObject = {
  start?: number;
  duration?: number;

@@ -1,4 +1,8 @@
-
+import { Loudness } from "./Loudness";
+import { Tempo } from "./Tempo";
+import { TimeSignature } from "./TimeSignature";
+import { Key } from "./Key";
+import { Mode } from "./Mode";
 export type AudioAnalysisObject = {
  meta?: {
  analyzer_version?: string;

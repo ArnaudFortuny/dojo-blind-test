@@ -1,4 +1,3 @@
-
 export type PlaylistObject = {
  collaborative?: boolean;
  description?: string;
