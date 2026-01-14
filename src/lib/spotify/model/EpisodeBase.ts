@@ -1,24 +1,26 @@
+import { ExternalUrlObject } from "./ExternalUrlObject";
+import { ImageObject } from "./ImageObject";
+import { ResumePointObject } from "./ResumePointObject";
+import { EpisodeRestrictionObject } from "./EpisodeRestrictionObject";
 export type EpisodeBase = {
  audio_preview_url: string;
  description: string;
  html_description: string;
  duration_ms: number;
  explicit: boolean;
- external_urls: ;
+ external_urls: ExternalUrlObject;
  href: string;
  id: string;
- images: {
-};
+ images: ImageObject[];
  is_externally_hosted: boolean;
  is_playable: boolean;
  language?: string;
- languages: {
-};
+ languages: string[];
  name: string;
  release_date: string;
  release_date_precision: string;
- resume_point: ;
+ resume_point: ResumePointObject;
  type: string;
  uri: string;
- restrictions?: ;
+ restrictions?: EpisodeRestrictionObject;
 };

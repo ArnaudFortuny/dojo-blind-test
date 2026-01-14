@@ -42,6 +42,19 @@ function getGeneratedCode(typeName, typeSchema) {
 }
 
 function getGeneratedType(typeSchema, imports) {
+  // Gérer allOf en priorité
+  if (typeSchema.allOf) {
+    const types = typeSchema.allOf.map(schema => getGeneratedType(schema, imports));
+    return types.join(" & ");
+  }
+
+  // Gérer les références directes
+  if (typeSchema.$ref) {
+    const refObject = typeSchema.$ref.split("/").at(-1);
+    imports.add(refObject);
+    return refObject;
+  }
+
   const schemaType = typeSchema.type;
 
   // TO DO: Generate typescript code from schema
@@ -51,6 +64,8 @@ function getGeneratedType(typeSchema, imports) {
     case "string": return "string";
     case "boolean": return "boolean";
     case "array":
+      const itemType = getGeneratedType(typeSchema.items, imports);
+      return itemType + "[]";
     case "object":
       const required = typeSchema.required ?? [];
       var objectType = "{\n";
